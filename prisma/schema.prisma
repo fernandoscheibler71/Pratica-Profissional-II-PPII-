@@ -1,0 +1,70 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  }
+
+model User {
+  id    Int     @id @default(autoincrement())
+  name  String
+  email String
+
+  members members_community[]
+  chats Chat[]
+  messages Messages[]
+
+  
+}
+
+
+model Community {
+  id Int @id @default(autoincrement())
+  name_comunity String
+  
+  members members_community[]
+  subCommunitys SubCommunitys[]
+
+}
+
+model Chat {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+
+  messages Messages[]
+  
+}
+
+model Messages {
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  chatId Int
+  chat Chat @relation(fields: [chatId], references: [id])
+
+  
+}
+
+
+model members_community {
+  userId      Int
+  communityId Int
+
+  user User @relation(fields: [userId], references: [id])
+  community Community @relation(fields: [communityId], references: [id])
+
+  @@id([userId, communityId])
+
+}
+
+model SubCommunitys {
+  communityId Int
+  community Community @relation(fields: [communityId], references: [id])
+
+
+  @@id([communityId])
+}
