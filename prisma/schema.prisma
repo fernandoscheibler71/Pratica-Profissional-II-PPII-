@@ -23,19 +23,19 @@ model User {
 
 model Community {
   id Int @id @default(autoincrement())
-  name_comunity String
+  nameComunity String
   
   members members_community[]
-  subCommunitys SubCommunitys[]
+  subCommunitys SubCommunity[]
   profileImage   String @default("url")
 
 }
 
-model SubCommunitys {
+model SubCommunity {
+  SubCommunityId Int @id @default(autoincrement())
   communityId Int  
   name String
 
-  SubCommunityId Int @id @default(autoincrement())
   community Community @relation(fields: [communityId], references: [id])
 
   chat Chat[]
@@ -56,9 +56,9 @@ model members_community {
 
 model Chat {
   id Int @id @default(autoincrement())
-  subcommunityId Int 
+  subCommunityId Int 
 
-  subcommunity SubCommunitys @relation(fields: [subcommunityId], references: [SubCommunityId])
+  subCommunity SubCommunity @relation(fields: [subCommunityId], references: [SubCommunityId])
 
   messages Messages[]
   
@@ -67,6 +67,7 @@ model Chat {
 model Messages {
   id Int @id @default(autoincrement())
   userId Int
+  contet String
 
   user User @relation(fields: [userId], references: [id])
   chatId Int

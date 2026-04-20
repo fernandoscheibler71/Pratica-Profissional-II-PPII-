@@ -3,7 +3,6 @@ const prisma = require('../../configs/PrismaConfig');
 class UserController {
     createUser = async (body) => {
 
-        console.log(body)
         if (!body.name || !body.email || !body.senha) {
             return { error: "Campos obrigatórios faltando" };
         }
@@ -17,15 +16,18 @@ class UserController {
                 }
 
             })
-            return user
+            return {
+                email: user.email,
+                nome: user.name
+            };
 
         }
-    catch(e){
-        throw e
-    }
-    
-            
-    
+        catch (e) {
+            throw e
+        }
+
+
+
     }
 
 }
