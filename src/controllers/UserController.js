@@ -1,3 +1,4 @@
+const { json } = require('express');
 const prisma = require('../../configs/PrismaConfig');
 
 class UserController {
@@ -26,9 +27,23 @@ class UserController {
             throw e
         }
 
-
-
     }
+
+    deletUser = async (id) => {
+        try{
+            const num = parseInt(id)
+            const delet = await prisma.user.delete({
+                where: {
+                    id: num
+                }
+            })
+            return delet
+        }
+        catch(e){
+            throw e
+        }
+    }
+    
 
 }
 module.exports = UserController;
