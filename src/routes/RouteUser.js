@@ -1,11 +1,10 @@
 const express = require('express')
 const route = express.Router()
 const User = require('../controllers/UserController')
-const { messages } = require('../../configs/PrismaConfig')
 const UserController = new User()
 
 
-route.post('/create', async (req, res) => {
+route.post('/', async (req, res) => {
     try {
         const newUser = await UserController.createUser(req.body)
         res.status(201).json(newUser)
@@ -20,16 +19,15 @@ route.post('/create', async (req, res) => {
     }
 })
 
-route.delete('/delet/:id', async (req, res) => {
+route.delete('/:id', async (req, res) => {
     try {
         const delet = await UserController.deletUser(req.params.id)
-        console.log(delet.email)
 
-        return res.status(200).json({message: `Usuário ${delet.email} deletado com sucesso`})
+        return res.status(200).json({ message: `Usuário ${delet.email} deletado com sucesso` })
     }
     catch (e) {
-        if (e.code === 'P2025'){
-            return res.status(404).json({message: 'Id não encontrado'})
+        if (e.code === 'P2025') {
+            return res.status(404).json({ message: 'Id não encontrado' })
         }
         console.log(e)
         res.status(500).json({ error: "Erro do servidor" })
@@ -37,4 +35,29 @@ route.delete('/delet/:id', async (req, res) => {
     }
 })
 
+route.get('/:id', async (req, res) => {
+    try {
+        const info = await UserController.getInfo(req.params.id)
+        return res.status(200).json(info)
+
+    }
+    catch (e) {
+        console.log(e)
+        return res.status(500).json({ message: 'erro do servidor' })
+    }
+})
+
+
+route.put('/', async (req, res) => {
+    try {
+        const put = await UserController.putInfo(req.body)
+        return res.status(200).json({id: put.id, newName: put.name})
+    }
+    catch(e) {
+        if (e.code === 'P2025') {
+            return res.status(404).json({ message: 'Id não encontrado' })
+        }
+        console.log(e)
+        return res.status(500).json({ message: 'erro do servidor' })    }
+})
 module.exports = route
