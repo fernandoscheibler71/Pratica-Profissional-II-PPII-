@@ -23,11 +23,11 @@ model User {
 
 model Community {
   id Int @id @default(autoincrement())
-  nameComunity String
+  nameCommunity String @unique
+  profileImage   String @default("url")
   
   members members_community[]
   subCommunitys SubCommunity[]
-  profileImage   String @default("url")
 
 }
 

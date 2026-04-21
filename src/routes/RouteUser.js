@@ -58,6 +58,6 @@ route.put('/', async (req, res) => {
             return res.status(404).json({ message: 'Id não encontrado' })
         }
         console.log(e)
-        return res.status(500).json({ message: 'erro do servidor' })    }
+        return res.status(500).json({ message: 'erro do servidor' })}
 })
 module.exports = route

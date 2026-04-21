@@ -1,9 +1,7 @@
-const { json } = require('express');
 const prisma = require('../../configs/PrismaConfig');
 
 class UserController {
     createUser = async (body) => {
-
         if (!body.name || !body.email || !body.senha) {
             return { error: "Campos obrigatórios faltando" };
         }
