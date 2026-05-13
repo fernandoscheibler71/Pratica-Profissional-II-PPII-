@@ -5,7 +5,7 @@ app.use(express.json())
 const cors = require ('cors')
 
 app.use(cors({
-  origin: "https://nextweb-front.vercel.app/"
+  origin: "https://nextweb-front.vercel.app"
 }));
 
 const user = require('./routes/RouteUser')
