@@ -6,6 +6,10 @@ const UserController = new User()
 
 route.post('/', async (req, res) => {
     try {
+        if (!req.body.name || !req.body.email || !req.body.senha) {
+            return res.status(400).json({ error: "Campos obrigatórios faltando" })
+        }
+
         const newUser = await UserController.createUser(req.body)
         res.status(201).json(newUser)
 
@@ -38,6 +42,10 @@ route.delete('/:id', async (req, res) => {
 route.get('/:id', async (req, res) => {
     try {
         const info = await UserController.getInfo(req.params.id)
+        if(!info){
+            return res.status(400).json({message: 'usuário não encontrado'})
+        }
+        
         return res.status(200).json(info)
 
     }

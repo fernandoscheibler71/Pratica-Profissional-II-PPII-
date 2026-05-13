@@ -5,9 +5,11 @@ app.use(express.json())
 
 const user = require('./routes/RouteUser')
 const community = require('./routes/RouteCommunity')
+const communityUser = require('./routes/RouteCommunityUser')
 
 app.use('/user', user)
 app.use('/community', community)
+app.use('/CommunityUser', communityUser)
 
 app.get('/', (req, res) => {
     console.log('Server Rodando')

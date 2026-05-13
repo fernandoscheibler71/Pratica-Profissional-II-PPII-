@@ -2,9 +2,6 @@ const prisma = require('../../configs/PrismaConfig');
 
 class UserController {
     createUser = async (body) => {
-        if (!body.name || !body.email || !body.senha) {
-            return { error: "Campos obrigatórios faltando" };
-        }
 
         try {
             const user = await prisma.user.create({
@@ -51,6 +48,9 @@ class UserController {
                 id: num
             }
         })
+        if(info === null){
+            return null
+        }
         return {
             id: info.id,
             name: info.name,
