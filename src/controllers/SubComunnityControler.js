@@ -88,4 +88,4 @@ class SubCommunityController {
     }
 
 }
-module.exports = SubCommunityController
+module.exports = SubCommunityController;
