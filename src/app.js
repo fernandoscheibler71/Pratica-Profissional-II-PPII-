@@ -10,11 +10,13 @@ app.use(cors({
 
 const user = require('./routes/RouteUser')
 const community = require('./routes/RouteCommunity')
+const subCommunity  = require('./routes/RouteSubComunity')
 const communityUser = require('./routes/RouteCommunityUser')
 
 
 app.use('/user', user)
 app.use('/community', community)
+app.use('/subcommunity', subCommunity)
 app.use('/CommunityUser', communityUser)
 
 app.get('/', (req, res) => {
