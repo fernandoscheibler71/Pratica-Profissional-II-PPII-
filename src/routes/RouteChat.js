@@ -4,36 +4,37 @@ const route = express.Router()
 const ChatController = require('../controllers/ChatController')
 const chat = new ChatController()
 
-route.post('/message', async (req, res) => {
+route.post('/chat', async (req, res) => {
     try {
         const body = req.body
 
-        // validação
+        const { subComunnityId } = body
+
+        // validação do body
         if (!body) {
             return res.status(400).json({ error: "Body é necessário" })
         }
 
-        if (!body.chatId || isNaN(body.chatId)) {
-            return res.status(400).json({ error: "chatId deve ser válido" })
+        // validação do ID
+        if (!subComunnityId || isNaN(Number(subComunnityId))) {
+            return res.status(400).json({ error: "subComunnityId deve ser válido" })
         }
 
-        if (!body.content) {
-            return res.status(400).json({ error: "content é obrigatório" })
-        }
-
-        const response = await chat.sendMessage(body)
+        const response = await chat.createChat({
+            subComunnityId
+        })
 
         return res.status(201).json(response)
 
     } catch (e) {
 
-        if (e.code === "P2002") {
+        if (e?.code === "P2002") {
             return res.status(400).json({
                 message: "Essa relação já existe"
             })
         }
 
-        if (e.code === "P2003") {
+        if (e?.code === "P2003") {
             return res.status(400).json({
                 message: "chat não existe"
             })
