@@ -4,9 +4,10 @@ class SubCommunityController {
     createSubCommunity = async (body) => {
         try {
             const SubCommunity = body  
-            const create = await prisma.SubCommunity.create({
+            const create = await prisma.subCommunity.create({
                 data: {
-                    name :  SubCommunity.name
+                    name:  SubCommunity.name,
+                    communityId: SubCommunity.communityId
                 }
             })
             return create 
@@ -16,12 +17,12 @@ class SubCommunityController {
         }
     }
 
-    deleteSubComunity = async (id) => {
+    deleteSubCommunity = async (id) => {
         const num = parseInt(id)
         try {
-        const delet = await prisma.SubCommunity.delete ({
+        const delet = await prisma.subCommunity.delete ({
             where : {
-                num: id 
+                SubCommunityId: num 
             }
         })
         return delet
@@ -35,9 +36,9 @@ class SubCommunityController {
     getById = async (id) => {
         try {
             const num = parseInt(id)
-            const find = await prisma.SubCommunity.findUnique ({
+            const find = await prisma.subCommunity.findUnique ({
                 where : {
-                    num: id 
+                    SubCommunityId: num
                 }
             })
             return find
@@ -49,7 +50,7 @@ class SubCommunityController {
 
     getMany = async () => {
         try {
-            const findAll = await prisma.SubCommunity.findMany ()
+            const findAll = await prisma.subCommunity.findMany ()
 
             if (findAll.lenght === 0) {
                 console.log('nenhuma subcomunidade existente')
@@ -65,16 +66,16 @@ class SubCommunityController {
     
 
     }
-    putCommunity = async (body) => {
+    putSubCommunity = async (body) => {
         if (!body.name || !body.is){
-            console.log ('subcomunidade inexistente')
+            console.log ('dados faltando')
             return null
         }
 
         try {
-            const edit = await prisma.SubCommunity.update ({
+            const edit = await prisma.subCommunity.update ({
                 where: {
-                    id: body.id
+                    SubCommunityId: body.SubCommunityId
                 },
                 data: {
                     name: body.name 

@@ -4,11 +4,11 @@ const ControllerSubCommunity = require('../controllers/SubComunnityControler');
 const { messages } = require('../../configs/PrismaConfig')
 const SubCommunity = new ControllerSubCommunity()
 
-route.post ('/', async (req,res) => {
+route.post ('/', async (req, res) => {
     try {
-        const create = await SubCommunity.CreateSubCommunity(req.body)
+        const create = await SubCommunity.createSubCommunity(req.body)
         return res.status(201).json({
-            SubCommunityid: create.SubCommunityid,
+            SubCommunityid: create.SubCommunityId,
             name: create.name
             
         })
