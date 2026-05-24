@@ -26,7 +26,7 @@ class UserController {
     }
 
     deletUser = async (id) => {
-        try{
+        try {
             const num = parseInt(id)
             const delet = await prisma.user.delete({
                 where: {
@@ -35,49 +35,70 @@ class UserController {
             })
             return delet
         }
-        catch(e){
+        catch (e) {
             throw e
         }
     }
 
     getInfo = async (id) => {
-     try{
-        const num = await parseInt(id)
-        const info = await prisma.user.findUnique({
-            where: {
-                id: num
+        try {
+            const num = await parseInt(id)
+            const info = await prisma.user.findUnique({
+                where: {
+                    id: num
+                }
+            })
+            if (info === null) {
+                return null
             }
-        })
-        if(info === null){
-            return null
-        }
-        return {
-            id: info.id,
-            name: info.name,
-            email: info.email
-        } 
-     }
-     
-     catch(e){
-        throw e
-     }
-    }
-    
-    putInfo = async (body) => {
-        if (!body.id){
-            return {message: 'id não fornecido'}
-        }
-        const id = parseInt(body.id)
-        const put = await prisma.user.update({
-            where: {
-                id: id
-            },
-            data: {
-                name: body.name
+            return {
+                id: info.id,
+                name: info.name,
+                email: info.email
             }
-        })
-        return put 
-    } 
+        }
 
+        catch (e) {
+            throw e
+        }
+    }
+
+    verifyUser = async (body) => {
+        try {
+            const data = await prisma.user.findUnique({
+                where: {
+                    email: body.email,
+                    senha: body.senha
+                }
+
+            })
+         
+
+            if (!data) {
+                return null
+            }
+
+            return data.email
+        }
+        catch (e) {
+            throw e
+        }
+
+        putInfo = async (body) => {
+            if (!body.id) {
+                return { message: 'id não fornecido' }
+            }
+            const id = parseInt(body.id)
+            const put = await prisma.user.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    name: body.name
+                }
+            })
+            return put
+        }
+    }
 }
 module.exports = UserController;

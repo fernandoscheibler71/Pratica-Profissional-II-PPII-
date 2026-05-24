@@ -39,13 +39,28 @@ route.delete('/:id', async (req, res) => {
     }
 })
 
+route.post('/route/login', async (req, res) => {
+    try{
+        const verify = await UserController.verifyUser(req.body)
+
+        if(!verify){
+            return res.status(404).json({ok: false})
+        }
+        
+        return res.status(200).json({ok: true})
+    }
+    catch(e){
+        console.log(e)
+        res.status(500).json({erro: 'Falha na verificação'})
+    }
+})
 route.get('/:id', async (req, res) => {
     try {
         const info = await UserController.getInfo(req.params.id)
-        if(!info){
-            return res.status(400).json({message: 'usuário não encontrado'})
+        if (!info) {
+            return res.status(400).json({ message: 'usuário não encontrado' })
         }
-        
+
         return res.status(200).json(info)
 
     }
@@ -56,16 +71,18 @@ route.get('/:id', async (req, res) => {
 })
 
 
+
 route.put('/', async (req, res) => {
     try {
         const put = await UserController.putInfo(req.body)
-        return res.status(200).json({id: put.id, newName: put.name})
+        return res.status(200).json({ id: put.id, newName: put.name })
     }
-    catch(e) {
+    catch (e) {
         if (e.code === 'P2025') {
             return res.status(404).json({ message: 'Id não encontrado' })
         }
         console.log(e)
-        return res.status(500).json({ message: 'erro do servidor' })}
+        return res.status(500).json({ message: 'erro do servidor' })
+    }
 })
 module.exports = route
