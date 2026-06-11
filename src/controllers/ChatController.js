@@ -6,7 +6,7 @@ class ChatController{
 
         const chat = await prisma.chat.create({
             data:{
-                subCommunnityId
+                subCommunityId: Number(subCommunityId)
             }
         }) 
             
@@ -20,7 +20,7 @@ class ChatController{
         try{
             const chats = await prisma.chat.findMany({
                 where:{
-                    subCommunityId: Number(subCommunity)
+                    subCommunityId: Number(subCommunityId)
                 }
             })
                 return chats
