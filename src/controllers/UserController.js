@@ -1,21 +1,21 @@
 const prisma = require('../../configs/PrismaConfig');
-
+const bcrypt = require('bcrypt')
 class UserController {
     createUser = async (body) => {
-
+    const hash = await bcrypt.hash(body.senha, 10) //recebe a senha do body e transforma numa hash, encriptado.
         try {
             const user = await prisma.user.create({
                 data: {
                     name: body.name,
                     email: body.email,
-                    senha: body.senha
+                    senha: hash
                 }
 
             })
             return {
                 id: user.id,
                 email: user.email,
-                nome: user.name
+                nome: user.name,
             };
 
         }
@@ -67,23 +67,25 @@ class UserController {
         try {
             const data = await prisma.user.findUnique({
                 where: {
-                    email: body.email,
-                    senha: body.senha
+                    email: body.email
                 }
-
             })
-         
-
             if (!data) {
                 return null
             }
+            console.log(data.senha)
+            const verify = await bcrypt.compare(body.senha, data.senha) //aqui se encontra um método em que se compara a senha fornecida pelo usuario com a hash armazenada
+
+            if (!verify){
+                return false
+            }                                                     //no caso de retornar false, será retornada uma mensagem dizendo que a senha está incorreta
 
             return data.email
         }
         catch (e) {
             throw e
         }
-
+    
         putInfo = async (body) => {
             if (!body.id) {
                 return { message: 'id não fornecido' }
@@ -100,5 +102,7 @@ class UserController {
             return put
         }
     }
+
+    
 }
 module.exports = UserController;

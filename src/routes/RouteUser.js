@@ -43,12 +43,15 @@ route.post('/route/login', async (req, res) => {
     try{
         const verify = await UserController.verifyUser(req.body)
 
-        if(!verify){
+        if(verify === null){
             return res.status(404).json({ok: false})
+        } else if (verify === false) {
+            return res.status(401).json({message: 'Credenciais inválidas'})
         }
         
         return res.status(200).json({ok: true})
-    }
+}
+
     catch(e){
         console.log(e)
         res.status(500).json({erro: 'Falha na verificação'})
