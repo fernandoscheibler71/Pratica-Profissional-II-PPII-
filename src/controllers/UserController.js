@@ -1,4 +1,5 @@
 const prisma = require('../../configs/PrismaConfig');
+const jwt = require('jsonwebtoken')
 
 class UserController {
     createUser = async (body) => {
@@ -78,6 +79,32 @@ class UserController {
         })
         return put 
     } 
+    
+    login = async (body) => {
+        const { email, password } = body
+
+        const user = await prisma.user.findUnique({
+            where: { email }
+        })
+
+        if (!user) {
+            throw new Error("Usuário não existe")
+        }
+
+        if (user.password !== password) {
+            throw new Error("Senha inválida")
+        }
+
+        const token = jwt.sign(
+            { id: user.id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        )
+
+        return { user, token }
+    }
+
+
 
 }
 module.exports = UserController;

@@ -12,6 +12,7 @@ const subCommunity  = require('./routes/RouteSubComunity')
 const communityUser = require('./routes/RouteCommunityUser')
 const chat = require('./routes/RouteChat')
 const message = require('./routes/RouteMessage')
+const auth = require('./routes/RouteAuth')
 
 app.use('/user', user)
 app.use('/community', community)
@@ -19,6 +20,7 @@ app.use('/subcommunity', subCommunity)
 app.use('/CommunityUser', communityUser)
 app.use('/chat', chat)
 app.use('/message',message)
+app.use('/auth', auth)
 
 console.log(process.env.DATABASE_URL)
 
