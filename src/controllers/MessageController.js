@@ -4,15 +4,17 @@ const prisma = require('../../configs/PrismaConfig');
 class MessageController{
         sendMessage = async (body) => {
             try {
-                const {content, chatId, userId} = body
+                const content_ = body.content
+                const chatId_ = body.chatId
+                const userId = body.userId
+                
     
-                 const Message = await prisma.Messages.create({
+                 const message = await prisma.Messages.create({
                     data:{
-                        content, 
-                        chatId, 
-                        userId
-
-                        }
+                        content: content_,
+                        chatId: chatId_,
+                        userId: userId
+                    }
                 })
                 return message
             }catch (e){

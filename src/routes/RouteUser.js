@@ -49,7 +49,11 @@ route.post('/route/login', async (req, res) => {
             return res.status(401).json({message: 'Credenciais inválidas'})
         }
         
-        return res.status(200).json({ok: true})
+        return res.status(200).json({
+            ok: true,
+            name: verify.name,
+            email: verify.email
+        })
 }
 
     catch(e){

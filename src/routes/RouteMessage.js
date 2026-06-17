@@ -1,9 +1,9 @@
 const express = require('express')
-const route = express.Router()
+const routes = express.Router()
 const MessageController = require('../controllers/MessageController')
 const message = new MessageController()
 
-route.post('/messages', async (req, res)=>{
+routes.post('/', async (req, res)=>{
     try{
         const { content, chatId } = req.body
 
@@ -13,7 +13,7 @@ route.post('/messages', async (req, res)=>{
             })
         }
 
-        if(isNaN(chatId)){
+        if(isNaN(   chatId)){
             return res.status(400).json({
                 error: "O id do chat deve ser válido"
             })
@@ -45,7 +45,7 @@ route.post('/messages', async (req, res)=>{
     }
 })
 
-route.get('/:chatId', async (req, res) => {
+routes.get('/:chatId', async (req, res) => {
     try {
         const { chatId } = req.params
 
@@ -67,4 +67,5 @@ route.get('/:chatId', async (req, res) => {
         })
     }
 })
-module.exports = route
+
+module.exports = routes

@@ -82,7 +82,8 @@ class UserController {
                 return false
             }                                                     //no caso de retornar false, será retornada uma mensagem dizendo que a senha está incorreta
 
-            return data.email
+            return data
+
         }
         catch (e) {
             throw e
