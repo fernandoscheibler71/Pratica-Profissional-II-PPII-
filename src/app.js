@@ -6,7 +6,6 @@ const express = require('express')
 const app = express()
 const port = 3000
 app.use(express.json())
-app.use(express.json())
 const user = require('./routes/RouteUser')
 const community = require('./routes/RouteCommunity')
 const subCommunity  = require('./routes/RouteSubComunity')
@@ -15,8 +14,20 @@ const chat = require('./routes/RouteChat')
 const message = require('./routes/RouteMessage')
 const auth = require('./routes/RouteAuth')
 
+
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://nextweb-front.vercel.app"
+];
+
 app.use(cors({
-  origin: "http://localhost:5173"
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Não permitido pelo CORS"));
+        }
+    }
 }));
 
 app.use('/user', user)
