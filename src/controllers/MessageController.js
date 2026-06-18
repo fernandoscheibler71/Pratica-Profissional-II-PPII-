@@ -13,7 +13,7 @@ class MessageController{
                     data:{
                         content: content_,
                         chatId: chatId_,
-                        userId: userId
+                        userId
                     }
                 })
                 return message
@@ -47,7 +47,7 @@ class MessageController{
             }catch (a){
                 throw a
             }
-        }  
+        } 
     
         listMessageByChat = async (chatId) => {
             try{
@@ -59,7 +59,7 @@ class MessageController{
                         id: "asc"
                     }
                 }) 
-                return ListMessageByChat
+                return messages
             }catch(e){
                 throw e
             }

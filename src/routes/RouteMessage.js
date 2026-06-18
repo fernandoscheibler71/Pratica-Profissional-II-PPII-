@@ -13,7 +13,7 @@ routes.post('/', async (req, res)=>{
             })
         }
 
-        if(isNaN(   chatId)){
+        if(isNaN(chatId)){
             return res.status(400).json({
                 error: "O id do chat deve ser válido"
             })
@@ -49,12 +49,10 @@ routes.get('/:chatId', async (req, res) => {
     try {
         const { chatId } = req.params
 
-        const messages = await message.listMessagesByChat(chatId)
+        const messages = await message.listMessageByChat(chatId)
 
         if (!messages || messages.length === 0) {
-            return res.status(404).json({
-                message: 'Mensagem não encontrada'
-            })
+            return res.status(404).json([])
         }
 
         return res.status(200).json(messages)
